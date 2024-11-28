@@ -59,3 +59,14 @@ def interaction_by_devices_ids(device_a_id: str, device_b_id: str):
 
     else:
         return get_api_message(message="interaction not found")
+
+
+def get_last_interaction_by_caller_id(caller_device_id: str):
+    res: list = connected_relation_repo.get_last_interaction_by_caller_id(caller_device_id)
+    if res:
+        return get_api_message(
+            message="interaction found",
+            data=res)
+
+    else:
+        return get_api_message(message="interaction not found")

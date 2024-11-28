@@ -109,3 +109,31 @@ def interaction_by_devices_ids(device_a_id, device_b_id):
         }
         res = session.run(query, params).data()
         return res if res else []
+
+
+def get_last_interaction_by_caller_id(from_device_id: str):
+    with driver.session() as session:
+        query = """
+                MATCH (from_device:Device {id: $from_device_id})-[relation:CONNECTED]->(other_device:Device)
+                RETURN from_device, relation, other_device
+                ORDER BY relation.timestamp DESC
+                LIMIT 1
+                """
+
+        params = {
+            "from_device_id": from_device_id,
+        }
+        result = session.run(query, params).single()  # Fetch a single record
+
+        if not result:
+            return None
+
+        from_device = dict(result["from_device"])
+        relation = dict(result["relation"])
+        other_device = dict(result["other_device"])
+
+        return {
+            "from_device": from_device,
+            "relation": relation,
+            "other_device": other_device
+        }

@@ -35,3 +35,9 @@ def get_devices_by_dest_device(device_id):
 def interaction_by_devices_ids(device_a_id: str, device_b_id: str):
     res = phone_tracker_service.interaction_by_devices_ids(device_a_id, device_b_id)
     return jsonify(res), 200
+
+
+@phone_tracker_blueprint.route("/last-interaction-by-caller-id/<caller_device_id>", methods=['GET'])
+def get_last_interaction_by_caller_id(caller_device_id: str):
+    res = phone_tracker_service.get_last_interaction_by_caller_id(caller_device_id)
+    return jsonify(res), 200
