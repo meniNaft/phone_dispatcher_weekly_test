@@ -11,3 +11,9 @@ def get_interaction():
     data = request.json
     res = phone_tracker_service.handle_new_interaction(data)
     return jsonify(res), 200
+
+
+@phone_tracker_blueprint.route("/bluetooth-and-path-long", methods=['GET'])
+def get_bluetooth_and_path_long():
+    res = phone_tracker_service.get_bluetooth_and_path_long()
+    return jsonify(res), 200

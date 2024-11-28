@@ -51,3 +51,21 @@ def create_relation(devices_relation: DevicesInteraction):
         }
         res = session.run(query, params).data()
         return res if res else None
+
+
+def get_bluetooth_and_path_long():
+    with driver.session() as session:
+        query = """
+                MATCH path = (a:Device)-[r:CONNECTED*]->(b:Device)
+                WHERE ALL(rel IN relationships(path) WHERE rel.method = 'Bluetooth')
+                RETURN [node IN nodes(path) | {
+                    id: node.id, 
+                    name: node.name, 
+                    brand: node.brand, 
+                    model: node.model, 
+                    os: node.os
+                    }] AS devices,
+                    length(path) AS path_length
+                """
+        res = session.run(query).data()
+        return res if res else []

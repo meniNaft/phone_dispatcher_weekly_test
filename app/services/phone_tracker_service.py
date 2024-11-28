@@ -37,3 +37,6 @@ def handle_new_interaction(devices_interaction: dict):
     res = connected_relation_repo.create_relation(new_interaction)
     return res
 
+
+def get_bluetooth_and_path_long():
+    return connected_relation_repo.get_bluetooth_and_path_long()
