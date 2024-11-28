@@ -82,3 +82,16 @@ def get_interactions_by_signal_strength():
         return res if res else []
 
 
+def get_devices_by_dest_device(device_id: str):
+    with driver.session() as session:
+        query = """
+                MATCH path = (from_device:Device)-[r:CONNECTED*]->(to_device:Device {id: $id})
+                RETURN nodes(path)[..-1] AS from_devices, to_device, length(path) AS path_length
+                """
+
+        params = {
+            "id": device_id
+        }
+        res = session.run(query, params).data()
+        return res if res else []
+

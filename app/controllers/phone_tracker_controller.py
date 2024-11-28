@@ -19,6 +19,13 @@ def get_bluetooth_and_path_long():
     return jsonify(res), 200
 
 
+@phone_tracker_blueprint.route("/interactions-by-signal-strength", methods=['GET'])
 def get_interactions_by_signal_strength():
     res = phone_tracker_service.get_interactions_by_signal_strength()
+    return jsonify(res), 200
+
+
+@phone_tracker_blueprint.route("/devices-by-dest-device/<device_id>", methods=['GET'])
+def get_devices_by_dest_device(device_id):
+    res = phone_tracker_service.get_devices_by_dest_device(device_id)
     return jsonify(res), 200
