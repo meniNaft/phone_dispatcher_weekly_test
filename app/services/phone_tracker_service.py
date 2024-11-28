@@ -40,3 +40,7 @@ def handle_new_interaction(devices_interaction: dict):
 
 def get_bluetooth_and_path_long():
     return connected_relation_repo.get_bluetooth_and_path_long()
+
+
+def get_interactions_by_signal_strength():
+    return connected_relation_repo.get_interactions_by_signal_strength()

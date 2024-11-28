@@ -69,3 +69,16 @@ def get_bluetooth_and_path_long():
                 """
         res = session.run(query).data()
         return res if res else []
+
+
+def get_interactions_by_signal_strength():
+    with driver.session() as session:
+        query = """
+                match (from_device:Device) -[relation:CONNECTED] -> (to_device:Device)
+                where relation.signal_strength_dbm > -60
+                return from_device, relation, to_device
+                """
+        res = session.run(query).data()
+        return res if res else []
+
+

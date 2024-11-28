@@ -17,3 +17,8 @@ def get_interaction():
 def get_bluetooth_and_path_long():
     res = phone_tracker_service.get_bluetooth_and_path_long()
     return jsonify(res), 200
+
+
+def get_interactions_by_signal_strength():
+    res = phone_tracker_service.get_interactions_by_signal_strength()
+    return jsonify(res), 200
