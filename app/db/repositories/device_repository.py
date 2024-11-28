@@ -1,5 +1,6 @@
 from app.db.database_config import driver
 from app.db.models.device import Device
+import app.utils.main_utils as device_utils
 
 
 def get_device_by_uuid(uuid: str):
@@ -13,10 +14,10 @@ def get_device_by_uuid(uuid: str):
         }
 
         res = session.run(query, params).single()
-        return res.data()['c'] if res else None
+        return res.data()['d'] if res else None
 
 
-def create_device(device: Device):
+def create_device(device: Device) -> Device:
     found_device = get_device_by_uuid(device.id)
     if found_device:
         return found_device
@@ -26,6 +27,7 @@ def create_device(device: Device):
                 create (d:Device {
                     id: $id,
                     brand: $brand,
+                    name: $name,
                     model: $model,
                     os: $os,
                     latitude: $latitude,
@@ -38,6 +40,7 @@ def create_device(device: Device):
 
             params = {
                 "id": device.id,
+                "name": device.name,
                 "brand": device.brand,
                 "model": device.model,
                 "os": device.os,
@@ -47,4 +50,5 @@ def create_device(device: Device):
                 "accuracy_meters": device.location.accuracy_meters,
             }
             res = session.run(query, params).single()
-            return res.data()['d'] if res else None
+            res = res.data()['d']
+            return res if res else None
