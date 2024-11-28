@@ -24,16 +24,14 @@ def handle_new_interaction(devices_interaction: dict):
         timestamp=devices_interaction['interaction']['timestamp'],
     )
 
-    # 1. check device not call it self
     if new_interaction.from_device.id == new_interaction.to_device.id:
         return {"error": "a device cant call it self"}
 
-    # 2. check device not call other device in same time (prevent duplicate)
     if connected_relation_repo.get_relation_by_devices_and_time(new_interaction):
         return {"error": "this interaction already exist"}
 
-    device_a = device_repo.create_device(new_interaction.from_device)
-    device_b = device_repo.create_device(new_interaction.to_device)
+    device_repo.create_device(new_interaction.from_device)
+    device_repo.create_device(new_interaction.to_device)
     res = connected_relation_repo.create_relation(new_interaction)
     return res
 
