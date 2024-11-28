@@ -25,7 +25,8 @@ def get_relation_by_devices_and_time(device_interaction: DevicesInteraction):
 def create_relation(devices_relation: DevicesInteraction):
     with driver.session() as session:
         query = """
-        create (from_device: Device {id: $from_device})-[relation:CONNECTED {
+        MATCH (from_device: Device {id: $from_device}), (to_device: Device {id: $to_device})
+        create (from_device)-[relation:CONNECTED {
             from_device: $from_device,
             to_device: $to_device,
             method: $method,
@@ -34,7 +35,7 @@ def create_relation(devices_relation: DevicesInteraction):
             distance_meters: $distance_meters,
             duration_seconds: $duration_seconds,
             timestamp: $timestamp
-        }]->(to_device: Device {id: $to_device})
+        }]->(to_device)
         return from_device, to_device, relation
         """
 
