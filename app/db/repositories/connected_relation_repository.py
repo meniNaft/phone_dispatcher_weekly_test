@@ -95,3 +95,17 @@ def get_devices_by_dest_device(device_id: str):
         res = session.run(query, params).data()
         return res if res else []
 
+
+def interaction_by_devices_ids(device_a_id, device_b_id):
+    with driver.session() as session:
+        query = """
+                match (d1:Device{id: $device_a_id}) -[r:CONNECTED]->(d2:Device {id: $device_b_id})
+                return d1, d2
+                """
+
+        params = {
+            "device_a_id": device_a_id,
+            "device_b_id": device_b_id
+        }
+        res = session.run(query, params).data()
+        return res if res else []

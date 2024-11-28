@@ -11,3 +11,15 @@ def convert_json_to_device(json_dict: dict) -> Device:
         os=json_dict['os'],
         location=Location(**json_dict['location'])
     )
+
+
+def get_api_message(message=None, data=None, error=None):
+    res = {}
+    if message:
+        res['message'] = message
+    if data:
+        res['data'] = data
+    if error:
+        res['error'] = error
+
+    return res

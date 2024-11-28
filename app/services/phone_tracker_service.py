@@ -1,7 +1,7 @@
 from app.db.models.devices_interaction import DevicesInteraction
 import app.db.repositories.device_repository as device_repo
 import app.db.repositories.connected_relation_repository as connected_relation_repo
-from app.utils.main_utils import convert_json_to_device
+from app.utils.main_utils import convert_json_to_device, get_api_message
 
 
 def handle_new_interaction(devices_interaction: dict):
@@ -48,3 +48,14 @@ def get_interactions_by_signal_strength():
 
 def get_devices_by_dest_device(device_id: str):
     return connected_relation_repo.get_devices_by_dest_device(device_id)
+
+
+def interaction_by_devices_ids(device_a_id: str, device_b_id: str):
+    res: list = connected_relation_repo.interaction_by_devices_ids(device_a_id, device_b_id)
+    if len(res):
+        return get_api_message(
+            message="interaction found",
+            data=res)
+
+    else:
+        return get_api_message(message="interaction not found")

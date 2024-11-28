@@ -29,3 +29,9 @@ def get_interactions_by_signal_strength():
 def get_devices_by_dest_device(device_id):
     res = phone_tracker_service.get_devices_by_dest_device(device_id)
     return jsonify(res), 200
+
+
+@phone_tracker_blueprint.route("/interaction-by-devices-ids/<device_a_id>/<device_b_id>", methods=['GET'])
+def interaction_by_devices_ids(device_a_id: str, device_b_id: str):
+    res = phone_tracker_service.interaction_by_devices_ids(device_a_id, device_b_id)
+    return jsonify(res), 200
