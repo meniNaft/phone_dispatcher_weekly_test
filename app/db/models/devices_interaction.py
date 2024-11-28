@@ -1,9 +1,12 @@
+from dataclasses import dataclass
 from datetime import datetime
+from app.db.models.device import Device
 
 
-class ConnectedRelationProps:
-    from_device: str
-    to_device: str
+@dataclass
+class DevicesInteraction:
+    from_device: Device
+    to_device: Device
     method: str
     bluetooth_version: str
     signal_strength_dbm: int
